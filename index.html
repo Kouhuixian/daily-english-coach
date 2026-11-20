@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#142b3b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="English Coach">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Daily English Coach</title>
+<style>
+:root{--navy:#142b3b;--blue:#244b62;--mint:#b8e0d2;--paper:#f5f7f6;--ink:#1e303b;--muted:#71808a;--line:#e2e9e7;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--navy);color:white;padding:24px 20px 25px;border-radius:0 0 25px 25px}
+.top{display:flex;justify-content:space-between;align-items:center}.eyebrow{font-size:11px;letter-spacing:1.6px;color:#b9d4d9;font-weight:700}
+h1{font-size:26px;line-height:1.15;margin:8px 0 5px}header p{margin:0;color:#cfdbdf;font-size:13px}
+.streak{background:#29495b;border:1px solid #426477;border-radius:14px;padding:9px 12px;text-align:center;min-width:70px}
+.streak b{display:block;font-size:21px}.streak span{font-size:10px;color:#c5d6dc}
+main{max-width:760px;margin:auto;padding:17px 15px 40px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:-2px}
+.stat,.panel,.module{background:white;border:1px solid var(--line);border-radius:16px;padding:14px}
+.stat strong{display:block;font-size:20px}.stat span{font-size:11px;color:var(--muted)}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:23px 2px 10px}.section-title h2{font-size:17px;margin:0}.small{font-size:11px;color:var(--muted)}
+.progress{height:7px;background:#e9efed;border-radius:20px;overflow:hidden;margin:12px 0 5px}.progress i{display:block;height:100%;background:#5eaa91;width:0;transition:.2s}
+.today{background:var(--navy);color:white;border-radius:19px;padding:17px;margin-top:14px}
+.today .tag{font-size:10px;color:#b8e0d2;letter-spacing:1px;font-weight:700}.today h2{font-size:20px;margin:5px 0}.today p{font-size:13px;color:#d1dce0;margin:0 0 13px}
+button{border:0;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;cursor:pointer}
+.primary{background:var(--mint);color:#142b3b}.secondary{background:#edf3f1;color:#244b62}.ghost{background:transparent;border:1px solid #547184;color:white}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row button{flex:1}
+.module-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.module{padding:14px;cursor:pointer;text-align:left}.module .emoji{font-size:21px}.module b{display:block;margin:5px 0 2px}.module span{font-size:11px;color:var(--muted)}
+.task{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}.task:last-child{border:0}
+.check{width:22px;height:22px;border:1.5px solid #a9bbb4;border-radius:7px;flex:none;display:grid;place-items:center;color:white;background:white}
+.check.done{background:#4b9a7e;border-color:#4b9a7e}.task b{font-size:13px}.task p{margin:2px 0 0;color:var(--muted);font-size:11px}
+.hidden{display:none!important}
+.practice-head{background:var(--navy);color:white;border-radius:18px;padding:16px;margin-bottom:12px}.practice-head h2{margin:4px 0;font-size:20px}.practice-head p{margin:0;color:#cbd9df;font-size:12px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0}
+.card h3{font-size:15px;margin:0 0 9px}.prompt{font-size:15px;line-height:1.65;color:#203d4b}
+.phrase{padding:10px 0;border-top:1px solid var(--line)}.phrase b{font-size:13px}.phrase p{font-size:12px;color:var(--muted);margin:3px 0}
+textarea{width:100%;min-height:115px;border:1px solid #d8e2de;border-radius:12px;padding:12px;font:14px/1.5 inherit;resize:vertical;background:#fbfdfc;color:var(--ink)}
+.note{font-size:11px;color:var(--muted);margin-top:7px}
+.source a{color:#286b7b;text-decoration:none;font-size:12px}.source li{margin:7px 0}
+.nav{position:sticky;bottom:8px;background:#ffffffed;backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:16px;padding:7px;display:flex;gap:6px;margin-top:18px;box-shadow:0 5px 20px #142b3b12}
+.nav button{flex:1;background:transparent;color:#667780;font-size:11px;padding:9px 4px}.nav button.active{background:#e8f3ef;color:#1d5746}
+footer{text-align:center;color:#8a989e;font-size:10px;margin-top:18px}
+@media(min-width:600px){main{padding:24px}.module-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div><div class="eyebrow">YOUR PERSONAL SPEAKING ROUTINE</div><h1>Daily English Coach</h1><p>Speak clearly. Think clinically. Connect naturally.</p></div><div class="streak"><b id="streak">0</b><span>DAY STREAK</span></div></div>
+</header>
+<main>
+ <section id="home">
+  <div class="stats">
+   <div class="stat"><strong id="minutes">0</strong><span>练习分钟</span></div>
+   <div class="stat"><strong id="sessions">0</strong><span>完成训练</span></div>
+   <div class="stat"><strong id="words">0</strong><span>表达收藏</span></div>
+  </div>
+  <div class="today">
+   <div class="tag">TODAY'S MISSION · 30 MIN</div>
+   <h2 id="todayTitle">Day 01 · Give a concise project update</h2>
+   <p id="todayDesc">向项目团队汇报工作进度，并清晰说明下一步计划。</p>
+   <div class="progress"><i id="progressBar"></i></div><div class="small" style="color:#cbd9df;margin-bottom:12px" id="progressText">0 / 4 steps completed</div>
+   <button class="primary" onclick="openPractice(0)">开始今日训练 →</button>
+  </div>
+  <div class="section-title"><h2>训练模块</h2><span class="small">按需练习</span></div>
+  <div class="module-grid">
+   <button class="module" onclick="openPractice(0)"><div class="emoji">🧪</div><b>Pharma Workplace</b><span>项目会议 · 跨部门沟通</span></button>
+   <button class="module" onclick="openPractice(1)"><div class="emoji">📈</div><b>Clinical Pharmacology</b><span>PK/PD · Dose selection</span></button>
+   <button class="module" onclick="openPractice(2)"><div class="emoji">☕</div><b>Small Talk</b><span>寒暄 · Coffee chat</span></button>
+  </div>
+  <div class="section-title"><h2>今日 30 分钟计划</h2><span class="small">输入 → 输出 → 复盘</span></div>
+  <div class="panel" id="checklist">
+   <div class="task"><button class="check" onclick="toggleTask(0,this)"></button><div><b>Warm-up · 5 min</b><p>学习 3 个高频表达，理解语气和使用场景</p></div></div>
+   <div class="task"><button class="check" onclick="toggleTask(1,this)"></button><div><b>Listen & Repeat · 7 min</b><p>听示范句并跟读，练习重音、停顿和语调</p></div></div>
+   <div class="task"><button class="check" onclick="toggleTask(2,this)"></button><div><b>Roleplay · 13 min</b><p>完成情景对话，先独立回答，再参考表达</p></div></div>
+   <div class="task"><button class="check" onclick="toggleTask(3,this)"></button><div><b>Review · 5 min</b><p>记录一个错误、一个新表达和一个改进目标</p></div></div>
+  </div>
+
+  <div class="section-title"><h2>30 天训练路线</h2><span class="small">由浅入深</span></div>
+  <div class="panel" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+   <div><b style="font-size:12px">Week 1 · Build fluency</b><p class="note">01 项目进度汇报<br>02 PK 蓄积解释<br>03 Coffee chat<br>04 会议中表达观点<br>05 澄清问题<br>06 描述数据趋势<br>07 每周复盘</p></div>
+   <div><b style="font-size:12px">Week 2 · Clinical pharmacology</b><p class="note">08 Exposure-response<br>09 FIH starting dose<br>10 Dose escalation<br>11 Half-life & steady state<br>12 Variability & covariates<br>13 DDI risk<br>14 每周复盘</p></div>
+   <div><b style="font-size:12px">Week 3 · Cross-functional work</b><p class="note">15 与 Clinician 讨论<br>16 与 Biostatistics 对齐<br>17 解释数据局限<br>18 提出不同意见<br>19 风险升级与 follow-up<br>20 会议总结与行动项<br>21 每周复盘</p></div>
+   <div><b style="font-size:12px">Week 4 · Speak with confidence</b><p class="note">22 ADC PK 特征<br>23 Exposure-safety<br>24 Dose optimization<br>25 回答 LM 追问<br>26 解释不确定性<br>27 Conference networking<br>28 即兴问答<br>29 综合项目汇报<br>30 阶段测评</p></div>
+  </div>
+  <div class="section-title"><h2>专业资料来源</h2><span class="small">公开权威资料</span></div>
+  <div class="panel source">
+   <ul style="padding-left:18px;margin:0">
+    <li><a target="_blank" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/exposure-response-relationships-study-design-data-analysis-and-regulatory-applications">FDA · Exposure-Response Relationships Guidance</a></li>
+    <li><a target="_blank" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/e4-dose-response-information-support-drug-registration">ICH E4 / FDA · Dose-Response</a></li>
+    <li><a target="_blank" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/m12-drug-interaction-studies">ICH M12 / FDA · Drug Interaction Studies</a></li>
+    <li><a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/264693ಂತಹ/">PubMed · Exposure–response good practices</a></li>
+   </ul>
+   <p class="note">课程对话为基于公开知识点原创编写的练习材料，不是监管机构原文或真实公司内部对话。</p>
+  </div>
+ </section>
+
+ <section id="practice" class="hidden">
+  <button class="secondary" onclick="showTab('home')">← 返回首页</button>
+  <div class="practice-head"><div class="eyebrow" id="practiceCategory">PHARMA WORKPLACE</div><h2 id="practiceTitle">Give a concise project update</h2><p id="practiceMeta">Intermediate · Meeting communication · 15 min</p></div>
+  <div class="card"><h3>🎯 Scenario</h3><div class="prompt" id="scenario"></div><p class="note" id="role"></p></div>
+  <div class="card"><h3>🗣️ Useful expressions</h3><div id="phrases"></div></div>
+  <div class="card">
+   <h3>🎧 Listen & Repeat</h3><div class="prompt" id="modelLine"></div>
+   <div class="row" style="margin-top:10px"><button class="secondary" onclick="speakModel()">▶ 播放示范句</button><button class="secondary" onclick="copyModel()">复制句子</button></div>
+   <p class="note">iPhone Safari 可尝试系统语音朗读；也可以用键盘听写功能进行口语转文字。</p>
+  </div>
+  <div class="card">
+   <h3>🎙️ Your turn · Speak or type</h3><p class="note">请先脱稿回答 45–90 秒。你可以使用 iPhone 键盘上的麦克风进行听写，再把识别结果放在这里。</p>
+   <textarea id="answer" placeholder="Start with: Thanks for the question. Let me give you a quick update..."></textarea>
+   <div class="row" style="margin-top:9px"><button class="primary" onclick="reviewAnswer()">完成自我复盘</button><button class="secondary" onclick="savePhrase()">收藏表达</button></div>
+   <div id="feedback" class="hidden" style="margin-top:13px;background:#eef6f2;border-radius:12px;padding:12px">
+    <b>复盘提示</b><p class="note" style="color:#45645a">检查你的回答是否包含：结论 / 关键证据 / 风险或限制 / 下一步行动。注意时态、冠词、单复数，以及是否使用了清晰的 signposting。</p>
+    <b style="font-size:12px">Professional model answer</b><p id="modelAnswer" class="prompt" style="font-size:13px"></p>
+   </div>
+  </div>
+  <div class="card"><h3>📚 Source & knowledge point</h3><p id="knowledge" class="note"></p><a id="sourceLink" target="_blank" href="#">打开公开参考资料 ↗</a></div>
+  <button class="primary" style="width:100%" onclick="completeSession()">完成本次训练 + 记录 30 分钟</button>
+ </section>
+
+ <section id="progressPage" class="hidden">
+  <div class="section-title"><h2>学习进度</h2><span class="small">仅保存在当前设备</span></div>
+  <div class="panel">
+   <h3 style="margin-top:0">你的训练记录</h3>
+   <p id="progressSummary" class="note">完成第一次训练后，这里会显示你的累计记录。</p>
+   <div class="progress"><i id="overallBar"></i></div>
+   <p class="note">建议每周回听或重做一次旧题，观察表达是否更流畅、结构是否更清楚。</p>
+  </div>
+  <div class="card"><h3>🧠 个人错误库</h3><textarea id="mistakes" placeholder="记录本周反复出现的问题，例如：时态、冠词、句子太长、缺少结论……" oninput="saveNotes()"></textarea></div>
+  <div class="card"><h3>⭐ 收藏表达</h3><div id="savedPhrases" class="note">尚未收藏表达。</div></div>
+  <button class="secondary" onclick="resetData()">重置本设备学习记录</button>
+ </section>
+
+ <div class="nav">
+  <button id="navHome" class="active" onclick="showTab('home')">⌂ 首页</button>
+  <button id="navPractice" onclick="openPractice(0)">◉ 今日练习</button>
+  <button id="navProgress" onclick="showTab('progressPage')">▤ 我的进度</button>
+ </div>
+ <footer>Daily English Coach · MVP v1.0 · 学习辅助工具，不构成临床或监管建议</footer>
+</main>
+<script>
+const lessons=[
+{cat:"PHARMA WORKPLACE",title:"Give a concise project update",meta:"Intermediate · Project meeting · 30 min",scenario:"You are in a cross-functional oncology project meeting. Your line manager asks: “Could you give us a quick update on the clinical pharmacology workstream and flag any potential issues?”",role:"角色：你是 Clinical Pharmacology team member；目标：用 60–90 秒汇报进展、风险和下一步。",phrases:[["Let me give you a quick update on…","让我简要汇报一下……（自然的会议开场）"],["The key point I'd like to highlight is…","我想重点强调的是……"],["We're on track, but one item needs further follow-up.","整体按计划推进，但有一项还需要进一步跟进。"],["I'll align with the team and come back with an update.","我会和团队对齐后再反馈进展。"]],line:"The key point I'd like to highlight is that the analysis is progressing as planned, but we need to complete an additional data review before drawing a conclusion.",answer:"Thanks. The clinical pharmacology workstream is progressing as planned. We've completed the initial review of the available PK data. One item that needs further follow-up is the interpretation of the exposure trend at the higher dose levels. I'll align with the bioanalytical and clinical teams, confirm the data, and provide an update at our next meeting.",knowledge:"练习结构：status → key finding → issue / uncertainty → next step。避免只罗列完成事项；要清楚说明对项目决策有什么影响。",url:"https://www.fda.gov/regulatory-information/search-fda-guidance-documents/exposure-response-relationships-study-design-data-analysis-and-regulatory-applications"},
+{cat:"CLINICAL PHARMACOLOGY",title:"Interpret a potential PK accumulation",meta:"Intermediate · PK discussion · 30 min",scenario:"During a Phase 1 dose-escalation meeting, a clinician asks: “We seem to see some accumulation after repeated dosing. How would you interpret this, and what would you recommend looking at next?”",role:"角色：你负责临床药理讨论；目标：谨慎解释现象，不把观察到的趋势直接等同于临床风险。",phrases:[["We observed a trend toward accumulation after repeated dosing.","我们观察到重复给药后有蓄积趋势。"],["This may be related to the drug's elimination half-life.","这可能与药物的消除半衰期有关。"],["We should interpret this in the context of the dosing interval.","我们需要结合给药间隔来解读。"],["I'd suggest looking at trough concentrations and the accumulation ratio.","我建议进一步查看谷浓度和蓄积比。"]],line:"We should interpret the accumulation pattern in the context of the terminal half-life, dosing interval, and whether steady state has been reached.",answer:"We observed a trend toward accumulation after repeated dosing. This may be expected depending on the terminal half-life and dosing interval. I would first assess whether the observed pattern is consistent with the predicted accumulation and whether steady state has been reached. I'd also look at trough concentrations, interpatient variability, and any relationship with safety findings before drawing a conclusion.",knowledge:"区分 observation 与 interpretation。蓄积是否预期，需要结合半衰期、给药间隔、线性/非线性 PK、稳态及安全性信息综合判断。",url:"https://www.fda.gov/regulatory-information/search-fda-guidance-documents/exposure-response-relationships-study-design-data-analysis-and-regulatory-applications"},
+{cat:"SMALL TALK",title:"Start a natural coffee chat",meta:"Intermediate · Workplace small talk · 30 min",scenario:"You meet an overseas colleague in the office coffee area. You have worked together online but have never met in person. Start a friendly conversation, ask about their visit, and keep the conversation going naturally.",role:"角色：你和海外同事第一次线下见面；目标：友好、自然，不要像背诵问答。",phrases:[["It's great to finally meet you in person.","终于在线下见到你，真好。"],["How has your week been so far?","你这周过得怎么样？"],["Is this your first time visiting Beijing?","这是你第一次来北京吗？"],["I hope you get a chance to explore the city.","希望你有机会逛逛这座城市。"]],line:"It's great to finally meet you in person. How has your week been so far?",answer:"It's great to finally meet you in person. How has your week been so far? Is this your first time visiting Beijing? I hope you get a chance to explore the city while you're here. There are some great places to visit, especially if you enjoy history and local food.",knowledge:"Small talk 的目标是建立连接，不是展示复杂词汇。用开放式问题、简短回应和一个相关追问延续对话。",url:"https://www.britishcouncil.org/english"}
+];
+let current=0;let state=JSON.parse(localStorage.getItem("dec_state")||'{"done":[],"minutes":0,"sessions":0,"phrases":[],"tasks":[],"mistakes":""}');
+function persist(){localStorage.setItem("dec_state",JSON.stringify(state));updateStats()}
+function updateStats(){document.getElementById("minutes").textContent=state.minutes;document.getElementById("sessions").textContent=state.sessions;document.getElementById("words").textContent=state.phrases.length;document.getElementById("streak").textContent=state.done.length?Math.min(state.done.length,7):0;document.getElementById("progressSummary").textContent=`已完成 ${state.sessions} 次训练，累计 ${state.minutes} 分钟，收藏 ${state.phrases.length} 条表达。`;document.getElementById("overallBar").style.width=Math.min(100,state.sessions/30*100)+"%";document.getElementById("savedPhrases").innerHTML=state.phrases.length?state.phrases.map(x=>`<div class="phrase">${escapeHtml(x)}</div>`).join(""):"尚未收藏表达。";document.getElementById("mistakes").value=state.mistakes||""}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function showTab(id){["home","practice","progressPage"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));["navHome","navPractice","navProgress"].forEach(x=>document.getElementById(x).classList.remove("active"));document.getElementById(id==="home"?"navHome":id==="practice"?"navPractice":"navProgress").classList.add("active");if(id==="progressPage")updateStats();window.scrollTo(0,0)}
+function openPractice(i){current=i;let l=lessons[i];showTab("practice");document.getElementById("practiceCategory").textContent=l.cat;document.getElementById("practiceTitle").textContent=l.title;document.getElementById("practiceMeta").textContent=l.meta;document.getElementById("scenario").textContent=l.scenario;document.getElementById("role").textContent=l.role;document.getElementById("phrases").innerHTML=l.phrases.map(p=>`<div class="phrase"><b>${p[0]}</b><p>${p[1]}</p></div>`).join("");document.getElementById("modelLine").textContent=l.line;document.getElementById("modelAnswer").textContent=l.answer;document.getElementById("knowledge").textContent=l.knowledge;document.getElementById("sourceLink").href=l.url;document.getElementById("answer").value="";document.getElementById("feedback").classList.add("hidden")}
+function speakModel(){let t=document.getElementById("modelLine").textContent;if("speechSynthesis"in window){let u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.88;speechSynthesis.cancel();speechSynthesis.speak(u)}else alert("当前浏览器暂不支持系统朗读。")}
+function copyModel(){navigator.clipboard?.writeText(document.getElementById("modelLine").textContent).then(()=>alert("已复制示范句")).catch(()=>alert("请长按句子复制。"))}
+function reviewAnswer(){let a=document.getElementById("answer").value.trim();if(!a){alert("请先说或写一段回答，再进行复盘。");return}document.getElementById("feedback").classList.remove("hidden");document.getElementById("feedback").scrollIntoView({behavior:"smooth",block:"nearest"})}
+function savePhrase(){let t=document.getElementById("modelLine").textContent;if(!state.phrases.includes(t)){state.phrases.push(t);persist();alert("已收藏到个人表达库。")}else alert("这条表达已经收藏过了。")}
+function completeSession(){let key=new Date().toISOString().slice(0,10)+"-"+current;if(!state.done.includes(key)){state.done.push(key);state.sessions++;state.minutes+=30;persist()}alert("本次训练已记录！记得把今天最需要改进的一点写入个人错误库。");showTab("home")}
+function toggleTask(i,el){state.tasks=state.tasks||[];if(state.tasks.includes(i)){state.tasks=state.tasks.filter(x=>x!==i);el.classList.remove("done");el.textContent=""}else{state.tasks.push(i);el.classList.add("done");el.textContent="✓"}document.getElementById("progressBar").style.width=(state.tasks.length/4*100)+"%";document.getElementById("progressText").textContent=state.tasks.length+" / 4 steps completed";persist()}
+function saveNotes(){state.mistakes=document.getElementById("mistakes").value;localStorage.setItem("dec_state",JSON.stringify(state))}
+function resetData(){if(confirm("确定清除本设备保存的所有学习记录吗？")){localStorage.removeItem("dec_state");state={done:[],minutes:0,sessions:0,phrases:[],tasks:[],mistakes:""};document.querySelectorAll(".check").forEach(x=>{x.classList.remove("done");x.textContent=""});document.getElementById("progressBar").style.width="0";document.getElementById("progressText").textContent="0 / 4 steps completed";updateStats()}}
+updateStats();
+document.querySelectorAll("#checklist .check").forEach((el,i)=>{if((state.tasks||[]).includes(i)){el.classList.add("done");el.textContent="✓"}});
+document.getElementById("progressBar").style.width=((state.tasks||[]).length/4*100)+"%";
+document.getElementById("progressText").textContent=(state.tasks||[]).length+" / 4 steps completed";
+if("serviceWorker"in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+</script>
+</body></html>
